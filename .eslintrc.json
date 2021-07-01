@@ -52,9 +52,9 @@
 				"useTabs": true,
 				"semi": false,
 				"arrowParens": "avoid",
-				"jsxBracketSameLine": false
+				"jsxBracketSameLine": false,
 				//"printWidth": 90
-				//"bracketSpacing": false
+				"bracketSpacing": true
 			}
 		]
 		//"import/prefer-default-export": "off" not-needed anymore
