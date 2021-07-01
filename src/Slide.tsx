@@ -4,32 +4,7 @@ import { View, Text, StyleSheet, Dimensions, Image } from "react-native"
 import Svg, { RadialGradient, Defs, Rect, Stop } from "react-native-svg"
 
 const { width, height } = Dimensions.get("screen")
-const SIZE = width - 75
-const styles = StyleSheet.create({
-	container: {
-		...StyleSheet.absoluteFillObject,
-		padding: 75,
-		paddingTop: 150,
-		alignItems: "center",
-	},
-	image: {
-		width: SIZE,
-		height: SIZE,
-	},
-	title: {
-		fontSize: 48,
-		color: "white",
-		textAlign: "center",
-		marginBottom: 16,
-		fontFamily: "SFProDisplay-Bold",
-	},
-	description: {
-		fontSize: 18,
-		color: "white",
-		textAlign: "center",
-		fontFamily: "SFProDisplay-Regular",
-	},
-})
+const SIZE = width * 0.7
 
 interface SlideProps {
 	slide: {
@@ -63,7 +38,7 @@ function Slide({
 			</Svg>
 			<View style={styles.container}>
 				<Image source={picture} style={styles.image} />
-				<View>
+				<View style={styles.textContainer}>
 					<Text style={styles.title}>{title}</Text>
 					<Text style={styles.description}>{description}</Text>
 				</View>
@@ -73,3 +48,35 @@ function Slide({
 }
 
 export default Slide
+
+const styles = StyleSheet.create({
+	container: {
+		...StyleSheet.absoluteFillObject,
+		// padding: 75,
+		// paddingTop: 150,
+		alignItems: "center",
+		justifyContent: "center",
+	},
+	textContainer: {
+		width: width * 0.7,
+	},
+	image: {
+		width: SIZE,
+		height: SIZE,
+	},
+	title: {
+		fontSize: 48,
+		fontWeight: "bold",
+		color: "white",
+		textAlign: "center",
+		marginBottom: 16,
+	},
+	description: {
+		fontSize: 18,
+		letterSpacing: 0.5,
+		lineHeight: 25,
+		fontWeight: "100",
+		color: "rgba(255, 255, 255, 0.85)",
+		textAlign: "center",
+	},
+})

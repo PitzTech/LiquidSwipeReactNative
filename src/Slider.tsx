@@ -1,5 +1,5 @@
 import React from "react"
-import { StyleSheet, View } from "react-native"
+import { StyleSheet, View, SafeAreaView, StatusBar } from "react-native"
 
 import Wave, { HEIGHT, MARGIN_WIDTH, Side, WIDTH } from "./Wave"
 import Button from "./Button"
@@ -26,8 +26,11 @@ function Slider({
 	const hasNext = !!next
 
 	return (
-		<View style={StyleSheet.absoluteFill}>
+		<SafeAreaView style={StyleSheet.absoluteFill}>
+			<StatusBar translucent backgroundColor="transparent" />
+
 			{current}
+
 			{prev && (
 				<View style={[StyleSheet.absoluteFill]}>
 					<Wave side={Side.LEFT}>{prev}</Wave>
@@ -38,7 +41,7 @@ function Slider({
 					<Wave side={Side.RIGHT}>{next}</Wave>
 				</View>
 			)}
-		</View>
+		</SafeAreaView>
 	)
 }
 
