@@ -44,7 +44,7 @@ const slides = [
 export const assets = slides.map(({ picture }) => picture)
 
 function LiquidSwipe(): JSX.Element {
-	const [index, setIndex] = useState(0)
+	const [index, setIndex] = useState(1)
 	const prev = slides[index - 1]
 	const next = slides[index + 1]
 	return (
