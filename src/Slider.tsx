@@ -1,13 +1,14 @@
 import React, { useEffect } from "react"
 import { StyleSheet, View, StatusBar } from "react-native"
 import Animated, {
+	runOnJS,
 	useAnimatedGestureHandler,
 	useAnimatedStyle,
 	useSharedValue,
 	withSpring,
 } from "react-native-reanimated"
 import { PanGestureHandler } from "react-native-gesture-handler"
-import { useVector } from "react-native-redash"
+import { snapPoint, useVector } from "react-native-redash"
 
 import Wave, { HEIGHT, MARGIN_WIDTH, Side, WIDTH } from "./Wave"
 import Button from "./Button"
@@ -34,6 +35,9 @@ function Slider({
 	const hasNext = !!next
 
 	const activeSide = useSharedValue(Side.NONE)
+	const isTransitioningLeft = useSharedValue(false)
+	const isTransitioningRight = useSharedValue(false)
+
 	const left = useVector()
 	const right = useVector()
 
@@ -64,7 +68,46 @@ function Slider({
 				right.x.value = WIDTH - x
 				right.y.value = y
 			}
-		}
+		},
+		onEnd: ({ x, velocityX, velocityY }) => {
+			if (activeSide.value === Side.LEFT) {
+				const snapPoints = [MARGIN_WIDTH, WIDTH]
+				const dest = snapPoint(x, velocityX, snapPoints)
+
+				isTransitioningLeft.value = dest === WIDTH
+
+				left.x.value = withSpring(
+					dest,
+					{
+						velocity: velocityX,
+						overshootClamping: isTransitioningLeft.value ? true : false,
+						restSpeedThreshold: isTransitioningLeft.value ? 100 : 0.001,
+						restDisplacementThreshold: isTransitioningLeft.value ? 100: 0.001
+					},
+					() => {
+						if (isTransitioningLeft.value) runOnJS(setIndex)(index - 1)
+					},
+				)
+			} else if (activeSide.value === Side.RIGHT) {
+				const snapPoints = [WIDTH - MARGIN_WIDTH, 0]
+				const dest = snapPoint(x, velocityX, snapPoints)
+
+				isTransitioningRight.value = dest === 0
+
+				right.x.value = withSpring(
+					WIDTH - dest,
+					{
+						velocity: velocityX,
+						overshootClamping: isTransitioningRight.value ? true : false,
+						restSpeedThreshold: isTransitioningRight.value ? 100 : 0.001,
+						restDisplacementThreshold: isTransitioningRight.value ? 100: 0.001
+					},
+					() => {
+						if (isTransitioningRight) runOnJS(setIndex)(index + 1)
+					},
+				)
+			}
+		},
 	})
 
 	return (
