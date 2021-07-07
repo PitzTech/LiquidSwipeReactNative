@@ -10,7 +10,7 @@ import Animated, {
 import { PanGestureHandler } from "react-native-gesture-handler"
 import { snapPoint, useVector } from "react-native-redash"
 
-import Wave, { HEIGHT, MARGIN_WIDTH, Side, WIDTH } from "./Wave"
+import Wave, { HEIGHT, MARGIN_WIDTH, MIN_LEDGE, Side, WIDTH } from "./Wave"
 import Button from "./Button"
 
 const PREV = WIDTH
@@ -38,16 +38,16 @@ function Slider({
 	const isTransitioningLeft = useSharedValue(false)
 	const isTransitioningRight = useSharedValue(false)
 
-	const left = useVector()
-	const right = useVector()
+	const left = useVector(0, HEIGHT / 2)
+	const right = useVector(0, HEIGHT / 2)
 
 	const leftStyle = useAnimatedStyle(() => ({
 		zIndex: activeSide.value === Side.LEFT ? 100 : 0,
 	}))
 
 	useEffect(() => {
-		left.x.value = withSpring(MARGIN_WIDTH)
-		right.x.value = withSpring(MARGIN_WIDTH)
+		left.x.value = withSpring(MIN_LEDGE)
+		right.x.value = withSpring(MIN_LEDGE)
 	}, [left.x, right.x])
 
 	// prettier-ignore
@@ -71,11 +71,12 @@ function Slider({
 		},
 		onEnd: ({ x, velocityX, velocityY }) => {
 			if (activeSide.value === Side.LEFT) {
-				const snapPoints = [MARGIN_WIDTH, WIDTH]
+				const snapPoints = [MIN_LEDGE, WIDTH]
 				const dest = snapPoint(x, velocityX, snapPoints)
 
 				isTransitioningLeft.value = dest === WIDTH
 
+				left.y.value = withSpring(HEIGHT / 2, { velocity: velocityY })
 				left.x.value = withSpring(
 					dest,
 					{
@@ -89,11 +90,12 @@ function Slider({
 					},
 				)
 			} else if (activeSide.value === Side.RIGHT) {
-				const snapPoints = [WIDTH - MARGIN_WIDTH, 0]
+				const snapPoints = [WIDTH - MIN_LEDGE, 0]
 				const dest = snapPoint(x, velocityX, snapPoints)
 
 				isTransitioningRight.value = dest === 0
 
+				right.y.value = withSpring(HEIGHT / 2, { velocity: velocityY })
 				right.x.value = withSpring(
 					WIDTH - dest,
 					{
