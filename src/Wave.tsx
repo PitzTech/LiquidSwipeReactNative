@@ -36,22 +36,33 @@ interface WaveProps {
 	side: Side
 	children: ReactNode
 	position: Vector<Animated.SharedValue<number>>
+	isTransitioning: Animated.SharedValue<boolean>
 }
 
-function Wave({ side, children, position }: WaveProps): JSX.Element {
+function Wave({
+	side,
+	children,
+	position,
+	isTransitioning,
+}: WaveProps): JSX.Element {
+	const stepX = useDerivedValue(() => {
+		const R = clamp(position.x.value, MARGIN_WIDTH - MIN_LEDGE, WIDTH / 3)
+		return withSpring(isTransitioning.value ? 0 : R / 2)
+	})
+
 	const animatedProps = useAnimatedProps(() => {
-		const R = clamp(position.x.value, MARGIN_WIDTH - MIN_LEDGE, WIDTH / 2)
-		const stepX = R / 2
-		const stepY = R
+		const R = clamp(position.x.value, MARGIN_WIDTH - MIN_LEDGE, WIDTH / 3)
+		// const stepX = R / 2
+		const stepY = Math.max(position.x.value, MARGIN_WIDTH - MIN_LEDGE)
 
 		// 0.5522847498 is taken from https://spencermortensen.com/articles/bezier-circle/
 		const C = R * 0.5522847498
 
 		const p1 = vec2(position.x.value, position.y.value - 2 * stepY) // center
-		const p2 = vec2(p1.x + stepX, p1.y + stepY)
-		const p3 = vec2(p2.x + stepX, p2.y + stepY)
-		const p4 = vec2(p3.x - stepX, p3.y + stepY)
-		const p5 = vec2(p4.x - stepX, p4.y + stepY)
+		const p2 = vec2(p1.x + stepX.value, p1.y + stepY)
+		const p3 = vec2(p2.x + stepX.value, p2.y + stepY)
+		const p4 = vec2(p3.x - stepX.value, p3.y + stepY)
+		const p5 = vec2(p4.x - stepX.value, p4.y + stepY)
 
 		const c21 = vec2(p1.x, p1.y + C)
 		const c22 = vec2(p2.x, p2.y)

@@ -82,8 +82,8 @@ function Slider({
 					{
 						velocity: velocityX,
 						overshootClamping: isTransitioningLeft.value ? true : false,
-						restSpeedThreshold: isTransitioningLeft.value ? 100 : 0.001,
-						restDisplacementThreshold: isTransitioningLeft.value ? 100: 0.001
+						restSpeedThreshold: isTransitioningLeft.value ? 100 : 0.01,
+						restDisplacementThreshold: isTransitioningLeft.value ? 100: 0.01
 					},
 					() => {
 						if (isTransitioningLeft.value) runOnJS(setIndex)(index - 1)
@@ -101,8 +101,8 @@ function Slider({
 					{
 						velocity: velocityX,
 						overshootClamping: isTransitioningRight.value ? true : false,
-						restSpeedThreshold: isTransitioningRight.value ? 100 : 0.001,
-						restDisplacementThreshold: isTransitioningRight.value ? 100: 0.001
+						restSpeedThreshold: isTransitioningRight.value ? 100 : 0.01,
+						restDisplacementThreshold: isTransitioningRight.value ? 100: 0.01
 					},
 					() => {
 						if (isTransitioningRight) runOnJS(setIndex)(index + 1)
@@ -121,14 +121,22 @@ function Slider({
 
 				{prev && (
 					<Animated.View style={[StyleSheet.absoluteFill, leftStyle]}>
-						<Wave side={Side.LEFT} position={left}>
+						<Wave
+							side={Side.LEFT}
+							position={left}
+							isTransitioning={isTransitioningLeft}
+						>
 							{prev}
 						</Wave>
 					</Animated.View>
 				)}
 				{next && (
 					<View style={StyleSheet.absoluteFill}>
-						<Wave side={Side.RIGHT} position={right}>
+						<Wave
+							side={Side.RIGHT}
+							position={right}
+							isTransitioning={isTransitioningRight}
+						>
 							{next}
 						</Wave>
 					</View>
