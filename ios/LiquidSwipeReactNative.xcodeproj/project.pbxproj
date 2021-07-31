@@ -145,7 +145,6 @@
 				EFADE3710A9B71CDC5B12606 /* Pods-LiquidSwipeReactNative-LiquidSwipeReactNativeTests.debug.xcconfig */,
 				0532B05F07801ED26547C084 /* Pods-LiquidSwipeReactNative-LiquidSwipeReactNativeTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
