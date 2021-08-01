@@ -125,6 +125,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
+	 dexOptions {
+       javaMaxHeapSize "3g"
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -136,6 +139,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     splits {
         abi {
