@@ -1,7 +1,3 @@
-<h1 align="center">
-  <img alt="Liquid Swipe" title="Liquid Swipe" src=".github/icon.png" height="200"/>
-</h1>
-
 <h1 align="center">React Native Liquid Swipe</h1>
 <h3 align="center">Telas com transições baseadas no efeito de Liquid Swipe</h3>
 
