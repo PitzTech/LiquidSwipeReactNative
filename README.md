@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img alt="Liquid Swipe" title="Liquid Swipe" src=".github/icon.png" />
+  <img alt="Liquid Swipe" title="Liquid Swipe" src=".github/icon.png" height="200"/>
 </h1>
 <blockquote align="center">“Sucesso não é o resultado de um jogo, mas o destino de uma jornada”!</blockquote>
 
@@ -12,7 +12,7 @@
 <br>
 
 <p align="center">
-  <img alt="Liquid Swipe" src=".github/cover.png" width="100%">
+  <img alt="Liquid Swipe" src=".github/cover.png" height="500">
 </p>
 
 ## ✨ Tecnologias
